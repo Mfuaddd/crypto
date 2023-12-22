@@ -11,19 +11,19 @@ function HeaderComponent() {
         </div>
         <ul className="header__navbar navbar">
           <li className="navbar__item">
-            Landing Page<i class="fa-solid fa-caret-down"></i>
+            Landing Page<i className="fa-solid fa-caret-down"></i>
           </li>
           <li className="navbar__item">
-            Exchange<i class="fa-solid fa-caret-down"></i>
+            Exchange<i className="fa-solid fa-caret-down"></i>
           </li>
           <li className="navbar__item">
-            Markets<i class="fa-solid fa-caret-down"></i>
+            Markets<i className="fa-solid fa-caret-down"></i>
           </li>
           <li className="navbar__item">
-            Dashboard<i class="fa-solid fa-caret-down"></i>
+            Dashboard<i className="fa-solid fa-caret-down"></i>
           </li>
           <li className="navbar__item">
-            Others<i class="fa-solid fa-caret-down"></i>
+            Others<i className="fa-solid fa-caret-down"></i>
           </li>
         </ul>
         <div className="header__btns">

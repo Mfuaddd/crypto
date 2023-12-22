@@ -1,8 +1,9 @@
 import React from 'react'
+import TableComponent from '../../components/TableComponent'
 
 function HomePage() {
   return (
-    <div>HomePage</div>
+    <TableComponent/>
   )
 }
 

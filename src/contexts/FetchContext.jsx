@@ -1,49 +1,68 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
+import { getData } from "../Helper/FetchHelper";
 
 export const fetchContext = createContext();
 
-function FetchProvider({children}) {
-  const [apiData, setApiData] = useState([]);
+function FetchProvider({ children }) {
+  const [dataLatest, setDataLatest] = useState([]);
+  const [dataTimeseries, setDataTimeseries] = useState([]);
+  const [dataCurrencies, setDataCurrencies] = useState([]);
 
-  async function getData({
-    endpoint,
-    base,
-    date,
-    start_date,
-    end_date,
-    type,
-    from,
-    to,
-    amount,
-    symbols,
-    apiKey = "PpQEf64BXCxQbTnbHABDW1oSw3SWcXI3",
-  }) {
-    const res = await fetch(`https://api.currencybeacon.com/v1/
-      ${endpoint}
-      ?api_key=${apiKey}
-      ${base ? "&base=" + base : ""}
-      ${date ? "&date=" + date : ""}
-      ${start_date ? "&start_date=" + start_date : ""}
-      ${end_date ? "&end_date=" + end_date : ""}
-      ${type ? "&type=" + type : ""}
-      ${from ? "&from=" + from : ""}
-      ${to ? "&to=" + to : ""}
-      ${amount ? "&amount=" + amount : ""}
-      ${symbols ? "&symbols=" + symbols : ""}
-      `);
-    const data = await res.json();
-    setApiData(api);
+  async function getDataLatest() {
+    const latest = await getData({ endpoint: "latest" });
+
+    setDataLatest(latest);
   }
+
+  async function getDataTimeseries() {
+    const dateNow = new Date(Date.now());
+
+    const endDate = dateNow.toISOString().slice(0, 10);
+
+    dateNow.setMonth(dateNow.getMonth() - 3);
+    const startDate = dateNow.toISOString().slice(0, 10);
+
+    const timeseries = await getData({
+      endpoint: "timeseries",
+      start_date: startDate,
+      end_date: endDate,
+    });
+
+    setDataTimeseries(timeseries);
+  }
+
+  async function getDataCurrencies() {
+    const currencies = await getData({ endpoint: "currencies" });
+
+    // const obj = Object.keys(currencies).reduce((prev, curr) => {
+    //   prev[currencies[curr].short_code] = { fullname : currencies[curr].name, symbol : currencies[curr].symbol};
+    //   return prev;
+    // }, {});
+
+    setDataCurrencies(currencies);
+  }
+
+  async function getFlag(){
+    const res = await fetch("https://restcountries.com/v3.1/all")
+    const data = await res.json()
+
+    const obj = data.reduce((prev, curr) => {
+      prev[Object.keys(curr.currencies)[0]] = { flag: curr.flags.svg};
+      return prev;
+    }, {});
+
+  }
+
   const data = {
-    apiData,
-    getData
-  }
+    dataLatest,
+    dataCurrencies,
+    dataTimeseries,
+    getDataLatest,
+    getDataCurrencies,
+    getDataTimeseries,
+  };
 
-  return (
-    <fetchContext.Provider  value={data}>
-      {children}
-    </fetchContext.Provider>
-  );
+  return <fetchContext.Provider value={data}>{children}</fetchContext.Provider>;
 }
 
 export default FetchProvider;

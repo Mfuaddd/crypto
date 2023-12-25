@@ -1,12 +1,12 @@
-import React from 'react'
-import FetchProvider from './FetchContext'
+import React from "react";
+import FetchProvider from "./FetchContext";
 
-function MainProvider({children}) {
+function MainProvider({ children }) {
   return (
-    <FetchProvider>
-      {children}
-    </FetchProvider>
-  )
+    <>
+      <FetchProvider>{children}</FetchProvider>
+    </>
+  );
 }
 
-export default MainProvider
+export default MainProvider;

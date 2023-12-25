@@ -1,0 +1,20 @@
+.charts{
+  padding: 90px 0 ;
+  &__header{
+    max-width: 450px;
+    text-align: center;
+    margin: 0 auto 50px;
+    font-size: 30px;
+    font-weight: 700;
+  }
+  &__cards{
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(250px,1fr));
+    gap: 20px;
+  }
+}
+
+#chart {
+  max-width: 650px;
+  margin: 35px auto;
+}

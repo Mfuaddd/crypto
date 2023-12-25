@@ -9,7 +9,8 @@ function HomePage() {
     <>
       <TableLineComponent />
       <ChartsComponent />
-      <TableGridComponent/>
+      <TableGridComponent type="normal"/>
+      <TableGridComponent type="change"/>
     </>
   );
 }

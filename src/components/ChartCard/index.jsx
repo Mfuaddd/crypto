@@ -18,17 +18,19 @@ const data = {
     xaxis: {
       type: "datetime",
       tickPlacement: "on",
-      showDuplicates: true,
       hideOverlappingLabels: true,
       labels: {
+        show:true,
+        showDuplicates: false,
         style: {
-          color: "#FFFFFF",
+          colors: "#9598a1",
+          fontSize: "12",
           fontWeight: "bold",
         },
         datetimeFormatter: {
           year: "yyyy",
           month: "MMM",
-          day: "dd",
+          day: "MMM",
           hour: "HH:mm",
         },
       },

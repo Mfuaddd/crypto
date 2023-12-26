@@ -55,8 +55,8 @@ function TableGridComponent({ type }) {
 
   return (
     <div className="table-grid">
-      <div className="container">
-        <div className="table-grid__tr">
+      <div className="container flex flex__align-start">
+        <div className="table-grid__tc table-grid__tc--w10">
           <div className="table-grid__th"></div>
           {codes.map((x) => (
             <div className="table-grid__th" key={x}>
@@ -67,60 +67,66 @@ function TableGridComponent({ type }) {
             </div>
           ))}
         </div>
-        {codes.map((x) => (
-          <div className="table-grid__tr" key={x}>
-            <div className="table-grid__th">
-              <img
-                src={`https://wise.com/public-resources/assets/flags/rectangle/${x.toLowerCase()}.png`}
-              />
-              {x}
-            </div>
-            {codes.map((y) => {
-              if (dataTimeseries.response && dataLatest.response) {
-                const timeseriesX = dataTimeseries.response[DayBefore][x];
-                const latestX = dataLatest.response.rates[x];
-                const timeseriesY = dataTimeseries.response[DayBefore][y];
-                const latestY = dataLatest.response.rates[y];
-                let change
-                if (type === "change") {
-                  change = calcChange(
-                    convertValute(timeseriesX, timeseriesY),
-                    convertValute(latestX, latestY)
+        <div className="table-grid__tc table-grid__tc--w90">
+          <div className="table-grid__tr">
+            {codes.map((x) => (
+              <div className="table-grid__th" key={x}>
+                <img
+                  src={`https://wise.com/public-resources/assets/flags/rectangle/${x.toLowerCase()}.png`}
+                />
+                {x}
+              </div>
+            ))}
+          </div>
+          {codes.map((x) => (
+            <div className="table-grid__tr" key={x}>
+              {codes.map((y) => {
+                if (dataTimeseries.response && dataLatest.response) {
+                  const timeseriesX = dataTimeseries.response[DayBefore][x];
+                  const latestX = dataLatest.response.rates[x];
+                  const timeseriesY = dataTimeseries.response[DayBefore][y];
+                  const latestY = dataLatest.response.rates[y];
+                  let change;
+                  if (type === "change") {
+                    change = calcChange(
+                      convertValute(timeseriesX, timeseriesY),
+                      convertValute(latestX, latestY)
+                    );
+                  }
+                  return (
+                    <div
+                      className="table-grid__th"
+                      key={x + y}
+                      style={
+                        change
+                          ? change > 0
+                            ? change > 2
+                              ? { backgroundColor: "#0a594e" }
+                              : { backgroundColor: "#15514f" }
+                            : change < 0
+                            ? change < -2
+                              ? { backgroundColor: "#a92d39" }
+                              : { backgroundColor: "#732a37" }
+                            : null
+                          : null
+                      }
+                    >
+                      {type === "normal" &&
+                        dataLatest.response &&
+                        x !== y &&
+                        convertValute(latestX, latestY)}
+                      {type === "change" &&
+                        dataLatest.response &&
+                        dataTimeseries.response &&
+                        x !== y &&
+                        change + "%"}
+                    </div>
                   );
                 }
-                return (
-                  <div
-                    className="table-grid__th"
-                    key={x + y}
-                    style={
-                      change
-                        ? change > 0
-                          ? change > 2
-                            ? { backgroundColor: "#0a594e" }
-                            : { backgroundColor: "#15514f" }
-                          : change < 0
-                          ? change < -2
-                            ? { backgroundColor: "#a92d39" }
-                            : { backgroundColor: "#732a37" }
-                          : null
-                        : null
-                    }
-                  >
-                    {type === "normal" &&
-                      dataLatest.response &&
-                      x !== y &&
-                      convertValute(latestX, latestY)}
-                    {type === "change" &&
-                      dataLatest.response &&
-                      dataTimeseries.response &&
-                      x !== y &&
-                      change + "%"}
-                  </div>
-                );
-              }
-            })}
-          </div>
-        ))}
+              })}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
